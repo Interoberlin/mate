@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">mate</string>
+    <string name="cbAutoRefresh">Auto Refresh</string>
+    <string-array name="loglevel">
+        <item >TRACE</item>
+        <item >DEBUG</item>
+        <item >INFO</item>
+        <item >WARN</item>
+        <item >ERROR</item>
+        <item >FATAL</item>
+    </string-array>
+    <string name="txtBuiltBy">This app was built by</string>
+    <string name="txtInteroberlin">#tt Interoberlin</string>
+    <string name="txtFlo">Florian Schwanz</string>
+    <string name="txtJulian">Julian Weißgerber</string>
+    <string name="txtMatthias">Matthias Bock</string>
+    <string name="txtSendMail">Send Mail</string>
+    <string name="txtVersion">VERSION</string>
+</resources>

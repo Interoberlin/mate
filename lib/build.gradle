@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+    }
+}
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        applicationId groupId + artifactId + '.lib'
+        minSdkVersion 15
+        targetSdkVersion 19
+        versionCode 1
+        versionName versionMajor + "." + versionMinor + "." + versionPatch
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+def sauvignonAarFile = file('build/outputs/aar/lib.aar')
+artifacts {
+    archives sauvignonAarFile
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+            pom.groupId = groupId
+            pom.artifactId = artifactId
+            pom.version = versionMajor + '.' + versionMinor + '.' + versionPatch
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
