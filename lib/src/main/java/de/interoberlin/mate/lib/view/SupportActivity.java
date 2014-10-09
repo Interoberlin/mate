@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import de.interoberlin.mate.lib.R;
+import de.interoberlin.mate.lib.controller.MateController;
 
 public class SupportActivity extends Activity
 {
@@ -25,7 +25,8 @@ public class SupportActivity extends Activity
 	{
 		// Call super
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_support);
+        setContentView(MateController.getResourseIdByName(getPackageName(), "layout", "activity_support"));
+		// setContentView(R.layout.activity_support);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Get activity and context
@@ -33,7 +34,7 @@ public class SupportActivity extends Activity
 		context = getApplicationContext();
 
 		// Load elements
-		btnSupport = (Button) findViewById(R.id.btnSendMail);
+		btnSupport = (Button) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "btnSendMail"));
 	}
 
 	@Override

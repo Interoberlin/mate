@@ -17,7 +17,7 @@ import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
-import de.interoberlin.mate.lib.R;
+import de.interoberlin.mate.lib.controller.MateController;
 import de.interoberlin.mate.lib.model.ELog;
 import de.interoberlin.mate.lib.model.Log;
 import de.interoberlin.mate.lib.model.LogEntry;
@@ -39,7 +39,7 @@ public class LogActivity extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_log);
+		setContentView(MateController.getResourseIdByName(getPackageName(), "layout", "activity_log"));
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Get activity and context
@@ -47,10 +47,12 @@ public class LogActivity extends Activity
 		context = getApplicationContext();
 
 		// Get views by id
-		tblLog = (TableLayout) findViewById(R.id.tbl);
-		scrl = (ScrollView) findViewById(R.id.scrl);
-		cbAutoRefresh = (CheckBox) findViewById(R.id.cbAutoRefresh);
-		spnnrLogLevel = (Spinner) findViewById(R.id.spnnrLogLevel);
+
+
+		tblLog = (TableLayout) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tbl"));
+		scrl = (ScrollView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "scrl"));
+		cbAutoRefresh = (CheckBox) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "cbAutoRefresh"));
+		spnnrLogLevel = (Spinner) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "spnnrLogLevel"));
 	}
 
 	public void onResume()
@@ -60,11 +62,11 @@ public class LogActivity extends Activity
 
 		// Create an ArrayAdapter using the string array and a default spinner
 		// layout
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.loglevel,
-				android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, MateController.getResourseIdByName(getPackageName(), "array", "loglevel"),
+                MateController.getResourseIdByName(getPackageName(), "layout", "simple_spinner_item"));
 
 		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapter.setDropDownViewResource(MateController.getResourseIdByName(getPackageName(), "layout", "simple_spinner_dropdown_item"));
 
 		// Apply the adapter to the spinner
 		spnnrLogLevel.setAdapter(adapter);
@@ -138,7 +140,7 @@ public class LogActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.activity_log, menu);
+		getMenuInflater().inflate(MateController.getResourseIdByName(getPackageName(), "menu", "activity_log"), menu);
 		return true;
 	}
 
@@ -147,21 +149,14 @@ public class LogActivity extends Activity
 	{
 		switch (item.getItemId())
 		{
-			case android.R.id.home:
-			{
-				finish();
-				break;
-			}
 			default:
 			{
 				return super.onOptionsItemSelected(item);
 			}
 		}
-
-		return true;
 	}
 
-	public static void draw()
+	public void draw()
 	{
 		activity.setTitle("Log");
 
@@ -184,44 +179,44 @@ public class LogActivity extends Activity
 				{
 					case TRACE:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(R.color.green));
-						tvLogLevel.setTextColor(activity.getResources().getColor(R.color.green));
-						tvMessage.setTextColor(activity.getResources().getColor(R.color.green));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "green")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "green")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "green")));
 						break;
 					}
 					case DEBUG:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(R.color.blue));
-						tvLogLevel.setTextColor(activity.getResources().getColor(R.color.blue));
-						tvMessage.setTextColor(activity.getResources().getColor(R.color.blue));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "blue")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "blue")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "blue")));
 						break;
 					}
 					case INFO:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(R.color.white));
-						tvLogLevel.setTextColor(activity.getResources().getColor(R.color.white));
-						tvMessage.setTextColor(activity.getResources().getColor(R.color.white));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "white")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "white")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "white")));
 						break;
 					}
 					case WARN:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(R.color.yellow));
-						tvLogLevel.setTextColor(activity.getResources().getColor(R.color.yellow));
-						tvMessage.setTextColor(activity.getResources().getColor(R.color.yellow));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "yellow")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "yellow")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "yellow")));
 						break;
 					}
 					case ERROR:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(R.color.red));
-						tvLogLevel.setTextColor(activity.getResources().getColor(R.color.red));
-						tvMessage.setTextColor(activity.getResources().getColor(R.color.red));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
 						break;
 					}
 					case FATAL:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(R.color.red));
-						tvLogLevel.setTextColor(activity.getResources().getColor(R.color.red));
-						tvMessage.setTextColor(activity.getResources().getColor(R.color.red));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
 						break;
 					}
 				}
@@ -255,7 +250,7 @@ public class LogActivity extends Activity
 			@Override
 			public void run()
 			{
-				draw();
+				// this.draw();
 			}
 		});
 	}
