@@ -45,9 +45,9 @@ uploadArchives {
             pom.groupId = groupId
             pom.artifactId = artifactId
             if (System.getenv("BUILD_NUMBER") != null)
-                pom.version = versionMajor + '.' + versionMinor + '.' + versionPatch
-            else
                 pom.version = versionMajor + '.' + versionMinor + '.' + System.getenv("BUILD_NUMBER")
+            else
+                pom.version = versionMajor + '.' + versionMinor + '.' + versionPatch
         }
     }
 }
