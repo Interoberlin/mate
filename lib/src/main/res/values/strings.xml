@@ -9,11 +9,13 @@
         <item >ERROR</item>
         <item >FATAL</item>
     </string-array>
-    <string name="txtBuiltBy">This app was built by</string>
-    <string name="txtInteroberlin">#tt Interoberlin</string>
-    <string name="txtFlo">Florian Schwanz</string>
-    <string name="txtJulian">Julian Weißgerber</string>
-    <string name="txtMatthias">Matthias Bock</string>
-    <string name="txtSendMail">Send Mail</string>
-    <string name="txtVersion">VERSION</string>
+    <string name="by">By</string>
+    <string name="interoberlin">#tt Interoberlin</string>
+    <string name="issuetracker">Issuetracker</string>
+    <string name="license">License</string>
+    <string name="name">Name</string>
+    <string name="sendMail">Send Mail</string>
+    <string name="sourcecode">Sourcecode</string>
+    <string name="version">Version</string>
+    <string name="website">Website</string>
 </resources>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <!-- Name -->
+        <TextView
+            android:id="@+id/lblName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/name"
+            android:layout_weight="1"
+            android:textStyle="bold" />
+        <TextView
+            android:capitalize="characters"
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#333333" />
+        <!-- By -->
+        <TextView
+            android:id="@+id/lblBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/by"
+            android:textStyle="bold"/>
+        <TextView
+            android:capitalize="characters"
+            android:id="@+id/tvBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/by"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#333333" />
+        <!-- Version -->
+        <TextView
+            android:id="@+id/lblVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/version"
+            android:textStyle="bold"/>
+        <TextView
+            android:capitalize="characters"
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/version"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#333333" />
+        <!-- License -->
+        <TextView
+            android:id="@+id/lblLicense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/license"
+            android:textStyle="bold"/>
+        <TextView
+            android:capitalize="characters"
+            android:id="@+id/tvLicense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/license"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#333333" />
+        <!-- Website -->
+        <TextView
+            android:id="@+id/lblWebsite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/website"
+            android:textStyle="bold"/>
+        <TextView
+            android:capitalize="characters"
+            android:id="@+id/tvWebsite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/website"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#333333" />
+        <!-- Sourcecode -->
+        <TextView
+            android:id="@+id/lblSourcecode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/sourcecode"
+            android:textStyle="bold"/>
+        <TextView
+            android:capitalize="characters"
+            android:id="@+id/tvSourcecode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/sourcecode"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#333333" />
+        <!-- Issue Tracker -->
+        <TextView
+            android:id="@+id/lblIssuetracker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/issuetracker"
+            android:textStyle="bold"/>
+        <TextView
+            android:capitalize="characters"
+            android:id="@+id/tvIssuetracker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/issuetracker"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#333333" />
+
+    <Button
+        android:id="@+id/btnSendMail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/sendMail" />
+    </LinearLayout>
+</ScrollView>

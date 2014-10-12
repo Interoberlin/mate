@@ -1,5 +1,11 @@
 package de.interoberlin.mate.lib.controller;
 
+import android.content.Context;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class MateController {
 
     /**
@@ -31,5 +37,22 @@ public class MateController {
             e.printStackTrace();
         }
         return id;
+    }
+
+    public static String getProperty(Context context, String key)
+    {
+        Properties props = new Properties();
+        InputStream is = null;
+
+        try {
+            is = context.getAssets().open("gradle.properties");
+            props.load(is);
+            return props.getProperty(key);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return "property not found";
     }
 }

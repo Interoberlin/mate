@@ -47,8 +47,6 @@ public class LogActivity extends Activity
 		context = getApplicationContext();
 
 		// Get views by id
-
-
 		tblLog = (TableLayout) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tbl"));
 		scrl = (ScrollView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "scrl"));
 		cbAutoRefresh = (CheckBox) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "cbAutoRefresh"));
@@ -62,7 +60,7 @@ public class LogActivity extends Activity
 
 		// Create an ArrayAdapter using the string array and a default spinner
 		// layout
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, MateController.getResourseIdByName(getPackageName(), "array", "loglevel"),
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, MateController.getResourseIdByName(getPackageName(), "string", "loglevel"),
                 MateController.getResourseIdByName(getPackageName(), "layout", "simple_spinner_item"));
 
 		// Specify the layout to use when the list of choices appears
@@ -180,43 +178,43 @@ public class LogActivity extends Activity
 					case TRACE:
 					{
 						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "green")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "green")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "green")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "green")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "green")));
 						break;
 					}
 					case DEBUG:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "blue")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "blue")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "blue")));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "blue")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "blue")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "blue")));
 						break;
 					}
 					case INFO:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "white")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "white")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "white")));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "white")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "white")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "white")));
 						break;
 					}
 					case WARN:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "yellow")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "yellow")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "yellow")));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "yellow")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "yellow")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "yellow")));
 						break;
 					}
 					case ERROR:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
 						break;
 					}
 					case FATAL:
 					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "id", "red")));
+						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
+						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
+						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
 						break;
 					}
 				}
