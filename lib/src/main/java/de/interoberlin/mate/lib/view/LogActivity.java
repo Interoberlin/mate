@@ -17,239 +17,226 @@ import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.interoberlin.mate.lib.controller.MateController;
 import de.interoberlin.mate.lib.model.ELog;
 import de.interoberlin.mate.lib.model.Log;
 import de.interoberlin.mate.lib.model.LogEntry;
 
 
-public class LogActivity extends Activity
-{
-	private static Context		context;
-	private static Activity		activity;
+public class LogActivity extends Activity {
+    public static String PACKAGE_NAME;
+    private static Context context;
+    private static Activity activity;
+    private static TableLayout tblLog;
+    private static ScrollView scrl;
+    private static CheckBox cbAutoRefresh;
+    private static Spinner spnnrLogLevel;
 
-	private static TableLayout	tblLog;
-	private static ScrollView	scrl;
-	private static CheckBox		cbAutoRefresh;
-	private static Spinner		spnnrLogLevel;
+    private static boolean RUNNING;
+    private static ELog threshold = ELog.TRACE;
 
-	private static ELog threshold	= ELog.TRACE;
+    public static void uiDraw() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                draw();
+            }
+        });
+    }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		setContentView(MateController.getResourseIdByName(getPackageName(), "layout", "activity_log"));
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+    public static void draw() {
+        activity.setTitle("Log");
 
-		// Get activity and context
-		activity = this;
-		context = getApplicationContext();
+        tblLog.removeAllViews();
 
-		// Get views by id
-		tblLog = (TableLayout) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tbl"));
-		scrl = (ScrollView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "scrl"));
-		cbAutoRefresh = (CheckBox) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "cbAutoRefresh"));
-		spnnrLogLevel = (Spinner) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "spnnrLogLevel"));
-	}
+        synchronized (Log.getAll()) {
+            for (LogEntry l :
+                    Log.getAll()) {
+                if (l.getLogLevel().ordinal() >= threshold.ordinal()) {
+                    TableRow tr = new TableRow(activity);
+                    TextView tvTimestamp = new TextView(activity);
+                    TextView tvLogLevel = new TextView(activity);
+                    TextView tvMessage = new TextView(activity);
 
-	public void onResume()
-	{
-		super.onResume();
-		draw();
+                    tvTimestamp.setText(l.getTimeStamp());
+                    tvLogLevel.setText(l.getLogLevel().toString());
+                    tvMessage.setText(l.getMessage());
 
-		// Create an ArrayAdapter using the string array and a default spinner
-		// layout
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, MateController.getResourseIdByName(getPackageName(), "string", "loglevel"),
-                MateController.getResourseIdByName(getPackageName(), "layout", "simple_spinner_item"));
+                    switch (l.getLogLevel()) {
+                        case TRACE: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "green")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "green")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "green")));
+                            break;
+                        }
+                        case DEBUG: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "blue")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "blue")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "blue")));
+                            break;
+                        }
+                        case INFO: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "black")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "black")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "black")));
+                            break;
+                        }
+                        case WARN: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "orange")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "orange")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "orange")));
+                            break;
+                        }
+                        case ERROR: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
+                            break;
+                        }
+                        case FATAL: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
+                            break;
+                        }
+                    }
 
-		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(MateController.getResourseIdByName(getPackageName(), "layout", "simple_spinner_dropdown_item"));
+                    tvTimestamp.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.3f));
+                    tvLogLevel.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.2f));
+                    tvMessage.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.5f));
 
-		// Apply the adapter to the spinner
-		spnnrLogLevel.setAdapter(adapter);
+                    tr.addView(tvTimestamp, 0);
+                    tr.addView(tvLogLevel, 1);
+                    tr.addView(tvMessage, 2);
 
-		new Thread()
-		{
-			@Override
-			public void run()
-			{
-				while (true)
-				{
-					if (cbAutoRefresh.isChecked())
-					{
-						try
-						{
-							sleep(250);
-						} catch (InterruptedException e)
-						{
-							e.printStackTrace();
-						}
-						LogActivity.uiDraw();
-					}
-				}
-			}
-		}.start();
+                    tblLog.addView(tr);
+                }
+            }
+        }
 
-		spnnrLogLevel.setOnItemSelectedListener(new OnItemSelectedListener()
-		{
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-			{
-				String selected = parent.getItemAtPosition(pos).toString();
 
-				if (selected.equals(ELog.TRACE.toString()))
-				{
-					threshold = ELog.TRACE;
-				} else if (selected.equals(ELog.DEBUG.toString()))
-				{
-					threshold = ELog.DEBUG;
-				} else if (selected.equals(ELog.INFO.toString()))
-				{
-					threshold = ELog.INFO;
-				} else if (selected.equals(ELog.WARN.toString()))
-				{
-					threshold = ELog.WARN;
-				} else if (selected.equals(ELog.ERROR.toString()))
-				{
-					threshold = ELog.ERROR;
-				} else if (selected.equals(ELog.FATAL.toString()))
-				{
-					threshold = ELog.FATAL;
-				}
+        scrl.post(new Runnable() {
+            @Override
+            public void run() {
+                scrl.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
 
-				uiDraw();
-			}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(MateController.getResourseIdByName(getPackageName(), "layout", "activity_log"));
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0)
-			{
-				threshold = ELog.TRACE;
-			}
-		});
-	}
+        // Set package name
+        PACKAGE_NAME = getApplicationContext().getPackageName();
 
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-	}
+        // Get activity and context
+        activity = this;
+        context = getApplicationContext();
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		getMenuInflater().inflate(MateController.getResourseIdByName(getPackageName(), "menu", "activity_log"), menu);
-		return true;
-	}
+        // Get views by id
+        tblLog = (TableLayout) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tbl"));
+        scrl = (ScrollView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "scrl"));
+        cbAutoRefresh = (CheckBox) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "cbAutoRefresh"));
+        spnnrLogLevel = (Spinner) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "spnnrLogLevel"));
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-			default:
-			{
-				return super.onOptionsItemSelected(item);
-			}
-		}
-	}
+    public void onResume() {
+        super.onResume();
+        draw();
 
-	public void draw()
-	{
-		activity.setTitle("Log");
+        // Create an ArrayAdapter using the string array and a default spinner
+        // layout
+        // ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, MateController.getResourseIdByName(getPackageName(), "string", "loglevel"), MateController.getResourseIdByName(getPackageName(), "layout", "simple_spinner_item"));
 
-		tblLog.removeAllViews();
+        List<String> list = new ArrayList<String>();
+        list.add("TRACE");
+        list.add("DEBUG");
+        list.add("INFO");
+        list.add("WARN");
+        list.add("ERROR");
+        list.add("FATAL");
 
-		for (LogEntry l : Log.getAll())
-		{
-			if (l.getLogLevel().ordinal() >= threshold.ordinal())
-			{
-				TableRow tr = new TableRow(activity);
-				TextView tvTimestamp = new TextView(activity);
-				TextView tvLogLevel = new TextView(activity);
-				TextView tvMessage = new TextView(activity);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
 
-				tvTimestamp.setText(l.getTimeStamp());
-				tvLogLevel.setText(l.getLogLevel().toString());
-				tvMessage.setText(l.getMessage());
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-				switch (l.getLogLevel())
-				{
-					case TRACE:
-					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "green")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "green")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "green")));
-						break;
-					}
-					case DEBUG:
-					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "blue")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "blue")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "blue")));
-						break;
-					}
-					case INFO:
-					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "white")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "white")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "white")));
-						break;
-					}
-					case WARN:
-					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "yellow")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "yellow")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "yellow")));
-						break;
-					}
-					case ERROR:
-					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
-						break;
-					}
-					case FATAL:
-					{
-						tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
-						tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
-						tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(getPackageName(), "color", "red")));
-						break;
-					}
-				}
+        // Apply the adapter to the spinner
+        spnnrLogLevel.setAdapter(adapter);
 
-				tvTimestamp.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.3f));
-				tvLogLevel.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.2f));
-				tvMessage.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.5f));
+        RUNNING = true;
 
-				tr.addView(tvTimestamp, 0);
-				tr.addView(tvLogLevel, 1);
-				tr.addView(tvMessage, 2);
+        new Thread() {
+            @Override
+            public void run() {
+                while (RUNNING) {
+                    if (cbAutoRefresh.isChecked()) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        LogActivity.uiDraw();
+                    }
+                }
+            }
+        }.start();
 
-				tblLog.addView(tr);
-			}
-		}
+        spnnrLogLevel.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                String selected = parent.getItemAtPosition(pos).toString();
 
-		scrl.post(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				scrl.fullScroll(ScrollView.FOCUS_DOWN);
-			}
-		});
-	}
+                if (selected.equals(ELog.TRACE.toString())) {
+                    threshold = ELog.TRACE;
+                } else if (selected.equals(ELog.DEBUG.toString())) {
+                    threshold = ELog.DEBUG;
+                } else if (selected.equals(ELog.INFO.toString())) {
+                    threshold = ELog.INFO;
+                } else if (selected.equals(ELog.WARN.toString())) {
+                    threshold = ELog.WARN;
+                } else if (selected.equals(ELog.ERROR.toString())) {
+                    threshold = ELog.ERROR;
+                } else if (selected.equals(ELog.FATAL.toString())) {
+                    threshold = ELog.FATAL;
+                }
 
-	public static void uiDraw()
-	{
-		activity.runOnUiThread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				// this.draw();
-			}
-		});
-	}
+                uiDraw();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                threshold = ELog.TRACE;
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        RUNNING = false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(MateController.getResourseIdByName(getPackageName(), "menu", "activity_log"), menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
 }
