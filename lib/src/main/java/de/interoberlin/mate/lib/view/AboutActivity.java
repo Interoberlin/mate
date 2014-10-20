@@ -33,7 +33,17 @@ public class AboutActivity extends Activity
 	{
 		// Call super
 		super.onCreate(savedInstanceState);
-        setContentView(MateController.getResourseIdByName(getPackageName(), "layout", "activity_about"));
+
+        Bundle b = getIntent().getExtras();
+        String value = b.getString("flavor");
+        String layout = "activity_about";
+
+        if (!value.equals("") && value != null)
+        {
+            layout += "_" + value;
+        }
+
+        setContentView(MateController.getResourseIdByName(getPackageName(), "layout", layout));
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Get activity and context
