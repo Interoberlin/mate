@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="@string/txtArtifactId"
+            android:text="@string/artifactId"
             android:layout_weight="1" />
         <View
             android:layout_width="fill_parent"
@@ -57,43 +57,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:id="@+id/">
 
         <TextView
             android:id="@+id/textViewBuildBy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="@string/txtBuiltBy" />
+            android:text="@string/by" />
 
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="@string/txtInteroberlin"
+            android:text="@string/interoberlin"
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/textViewFlo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="@string/txtFlo" />
-
-        <TextView
-            android:id="@+id/textViewJulian"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="@string/txtJulian" />
-
-        <TextView
-            android:id="@+id/textViewMatthias"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="@string/txtMatthias" />
 
         <Space
             android:layout_width="match_parent"
@@ -114,14 +94,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtVersion"
+                android:text="@string/version"
                 android:layout_weight="0.5"/>
             <TextView
                 android:id="@+id/tvVersion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtVersion"
+                android:text="@string/version"
                 android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
@@ -133,14 +113,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtLicense"
+                android:text="@string/license"
                 android:layout_weight="0.5"/>
             <TextView
                 android:id="@+id/tvLicense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtLicense"
+                android:text="@string/license"
                 android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
@@ -152,14 +132,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtWebsite"
+                android:text="@string/website"
                 android:layout_weight="0.5"/>
             <TextView
                 android:id="@+id/tvWebsite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtWebsite"
+                android:text="@string/website"
                 android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
@@ -171,14 +151,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtSourcecode"
+                android:text="@string/sourcecode"
                 android:layout_weight="0.5"/>
             <TextView
                 android:id="@+id/tvSourcecode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtSourcecode"
+                android:text="@string/sourcecode"
                 android:layout_weight="1"/>
         </LinearLayout>
         <LinearLayout
@@ -190,14 +170,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtIssuetracker"
+                android:text="@string/issuetracker"
                 android:layout_weight="0.5"/>
             <TextView
                 android:id="@+id/tvIssuetracker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="@string/txtIssuetracker"
+                android:text="@string/issuetracker"
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>
@@ -208,6 +188,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="@string/txtSendMail" />
+        android:text="@string/sendMail" />
 
 </RelativeLayout>

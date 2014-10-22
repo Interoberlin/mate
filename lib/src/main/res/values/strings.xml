@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">mate</string>
+    <string name="artifactId">Artifact ID</string>
     <string name="cbAutoRefresh">Auto Refresh</string>
-    <string name="trace">TRACE</string>
     <string-array name="loglevel">
         <item >TRACE</item>
         <item >DEBUG</item>

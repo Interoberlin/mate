@@ -11,12 +11,11 @@ import android.widget.TextView;
 
 import de.interoberlin.mate.lib.controller.MateController;
 
-public class AboutActivity extends Activity
-{
-	// private static Context context;
-	private static Activity	activity;
+public class AboutActivity extends Activity {
+    // private static Context context;
+    private static Activity activity;
 
-	// GUI elements
+    // GUI elements
     private static TextView tvName;
     private static TextView tvBy;
     private static TextView tvVersion;
@@ -25,31 +24,41 @@ public class AboutActivity extends Activity
     private static TextView tvSourcecode;
     private static TextView tvIssuetracker;
 
-	private static Button	btnSupport;
+    private static Button btnSupport;
 
 
-	@Override
-	public void onCreate(Bundle savedInstanceState)
-	{
-		// Call super
-		super.onCreate(savedInstanceState);
+    /**
+     * To select one flavor use
+     * <code>
+     * Intent intent = new Intent(MyActivity.this, AboutActivity.class);
+     * Bundle b = new Bundle();
+     * b.putString("flavor", "interoberlin");
+     * intent.putExtras(b);
+     * startActivity(intent);
+     * <code/>
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // Call super
+        super.onCreate(savedInstanceState);
 
         Bundle b = getIntent().getExtras();
         String value = b.getString("flavor");
         String layout = "activity_about";
 
-        if (!value.equals("") && value != null)
-        {
+        if (!value.equals("") && value != null) {
             layout += "_" + value;
         }
 
         setContentView(MateController.getResourseIdByName(getPackageName(), "layout", layout));
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		// Get activity and context
-		activity = this;
+        // Get activity and context
+        activity = this;
 
-		// Load elements
+        // Load elements
         tvName = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvName"));
         tvBy = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvBy"));
         tvVersion = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvVersion"));
@@ -59,34 +68,31 @@ public class AboutActivity extends Activity
         tvIssuetracker = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvIssuetracker"));
 
         btnSupport = (Button) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "btnSendMail"));
-	}
+    }
 
-	@Override
-	protected void onResume()
-	{
-		super.onResume();
-		draw();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        draw();
 
-		// Add action listeners
-		btnSupport.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				Intent emailIntent = new Intent(Intent.ACTION_SEND);
-				emailIntent.setType("message/rfc822");
-				emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
-				{ "support@interoberlin.de" });
-				emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support #tt Interoberlin");
-				emailIntent.putExtra(Intent.EXTRA_TEXT, "Write your comment here");
-				startActivity(Intent.createChooser(emailIntent, "Send mail"));
-			}
-		});
+        // Add action listeners
+        btnSupport.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("message/rfc822");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
+                        {"support@interoberlin.de"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support #tt Interoberlin");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Write your comment here");
+                startActivity(Intent.createChooser(emailIntent, "Send mail"));
+            }
+        });
 
         String version = "";
-        version+= MateController.getProperty(getApplicationContext(), "versionMajor") + ".";
-        version+= MateController.getProperty(getApplicationContext(), "versionMinor") + ".";
-        version+= MateController.getProperty(getApplicationContext(), "versionPatch");
+        version += MateController.getProperty(getApplicationContext(), "versionMajor") + ".";
+        version += MateController.getProperty(getApplicationContext(), "versionMinor") + ".";
+        version += MateController.getProperty(getApplicationContext(), "versionPatch");
 
 
         tvName.setText(MateController.getProperty(getApplicationContext(), "artifactId"));
@@ -96,30 +102,25 @@ public class AboutActivity extends Activity
         tvWebsite.setText(MateController.getProperty(getApplicationContext(), "website"));
         tvSourcecode.setText(MateController.getProperty(getApplicationContext(), "sourcecode"));
         tvIssuetracker.setText(MateController.getProperty(getApplicationContext(), "issuetracker"));
-	}
+    }
 
-	@Override
-	public void onPause()
-	{
-		// Call super
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+        // Call super
+        super.onPause();
+    }
 
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-			case android.R.id.home:
-			{
-				finish();
-				break;
-			}
-		}
-		return true;
-	}
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+        }
+        return true;
+    }
 
-	private void draw()
-	{
-		activity.setTitle("Support");
-	}
+    private void draw() {
+        activity.setTitle("Support");
+    }
 }
