@@ -1,4 +1,5 @@
 <resources>
+    <string name="about">About</string>
     <string name="app_name">mate</string>
     <string name="artifactId">Artifact ID</string>
     <string name="cbAutoRefresh">Auto Refresh</string>
@@ -12,7 +13,7 @@
     </string-array>
     <string name="by">By</string>
     <string name="interoberlin">#tt Interoberlin</string>
-    <string name="issuetracker">Issuetracker</string>
+    <string name="issuetracker">Issue Tracker</string>
     <string name="license">License</string>
     <string name="name">Name</string>
     <string name="sendMail">Send Mail</string>

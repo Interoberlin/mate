@@ -2,11 +2,14 @@ package de.interoberlin.mate.lib.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.interoberlin.mate.lib.controller.MateController;
@@ -14,17 +17,21 @@ import de.interoberlin.mate.lib.controller.MateController;
 public class AboutActivity extends Activity {
     // private static Context context;
     private static Activity activity;
+    private static String flavor = "";
 
     // GUI elements
     private static TextView tvName;
-    private static TextView tvBy;
+    private static TextView tvCompany;
     private static TextView tvVersion;
     private static TextView tvLicense;
     private static TextView tvWebsite;
-    private static TextView tvSourcecode;
     private static TextView tvIssuetracker;
 
-    private static Button btnSupport;
+    private static TextView tvSourcecode;
+    private static Button btnSendMail;
+
+    private static ImageView ibMail;
+    private static ImageView ibGithub;
 
 
     /**
@@ -45,11 +52,14 @@ public class AboutActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Bundle b = getIntent().getExtras();
-        String value = b.getString("flavor");
+        if (b != null) {
+            flavor = b.getString("flavor");
+        }
+
         String layout = "activity_about";
 
-        if (!value.equals("") && value != null) {
-            layout += "_" + value;
+        if (!flavor.equals("") && flavor != null) {
+            layout += "_" + flavor;
         }
 
         setContentView(MateController.getResourseIdByName(getPackageName(), "layout", layout));
@@ -60,14 +70,20 @@ public class AboutActivity extends Activity {
 
         // Load elements
         tvName = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvName"));
-        tvBy = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvBy"));
+        tvCompany = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvCompany"));
         tvVersion = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvVersion"));
         tvLicense = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvLicense"));
         tvWebsite = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvWebsite"));
-        tvSourcecode = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvSourcecode"));
+
         tvIssuetracker = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvIssuetracker"));
 
-        btnSupport = (Button) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "btnSendMail"));
+        if (flavor.equals("interoberlin")) {
+            ibGithub = (ImageButton) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "ibGithub"));
+            ibMail = (ImageButton) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "ibMail"));
+        } else {
+            tvSourcecode = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvSourcecode"));
+            btnSendMail = (Button) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "btnSendMail"));
+        }
     }
 
     @Override
@@ -75,32 +91,69 @@ public class AboutActivity extends Activity {
         super.onResume();
         draw();
 
-        // Add action listeners
-        btnSupport.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent.setType("message/rfc822");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
-                        {"support@interoberlin.de"});
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support #tt Interoberlin");
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "Write your comment here");
-                startActivity(Intent.createChooser(emailIntent, "Send mail"));
-            }
-        });
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            flavor = b.getString("flavor");
+        }
 
         String version = "";
         version += MateController.getProperty(getApplicationContext(), "versionMajor") + ".";
         version += MateController.getProperty(getApplicationContext(), "versionMinor") + ".";
         version += MateController.getProperty(getApplicationContext(), "versionPatch");
+        final String versionCode = version;
 
+        // Add action listeners
+        if (flavor.equals("interoberlin")) {
+            ibGithub.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(MateController.getProperty(getApplicationContext(), "sourcecode")));
+                    startActivity(i);
+                }
+            });
+            ibMail.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.setType("message/rfc822");
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
+                            {"support@interoberlin.de"});
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback " + MateController.getProperty(getApplicationContext(), "artifactId") + " " + versionCode);
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Write your comment here");
+                    startActivity(Intent.createChooser(emailIntent, "Send mail"));
+                }
+            });
+        } else {
+            tvSourcecode.setText(MateController.getProperty(getApplicationContext(), "sourcecode"));
+            tvSourcecode.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(MateController.getProperty(getApplicationContext(), "sourcecode")));
+                    startActivity(i);
+                }
+            });
+            btnSendMail.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.setType("message/rfc822");
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]
+                            {"support@interoberlin.de"});
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback " + MateController.getProperty(getApplicationContext(), "artifactId") + " " + versionCode);
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Write your comment here");
+                    startActivity(Intent.createChooser(emailIntent, "Send mail"));
+                }
+            });
+        }
 
         tvName.setText(MateController.getProperty(getApplicationContext(), "artifactId"));
-        tvBy.setText(MateController.getResourseIdByName(getPackageName(), "string", "interoberlin"));
+        tvCompany.setText(MateController.getResourseIdByName(getPackageName(), "string", "interoberlin"));
         tvVersion.setText(version);
         tvLicense.setText(MateController.getProperty(getApplicationContext(), "license"));
         tvWebsite.setText(MateController.getProperty(getApplicationContext(), "website"));
-        tvSourcecode.setText(MateController.getProperty(getApplicationContext(), "sourcecode"));
+
         tvIssuetracker.setText(MateController.getProperty(getApplicationContext(), "issuetracker"));
     }
 
@@ -121,6 +174,6 @@ public class AboutActivity extends Activity {
     }
 
     private void draw() {
-        activity.setTitle("Support");
+        activity.setTitle(MateController.getProperty(getApplicationContext(), "artifactId"));
     }
 }

@@ -32,7 +32,7 @@
             android:background="#333333" />
         <!-- By -->
         <TextView
-            android:id="@+id/lblBy"
+            android:id="@+id/lblCompany"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -40,7 +40,7 @@
             android:textStyle="bold"/>
         <TextView
             android:capitalize="characters"
-            android:id="@+id/tvBy"
+            android:id="@+id/tvCompany"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

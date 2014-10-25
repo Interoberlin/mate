@@ -23,8 +23,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:id="@+id/">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvName"
@@ -32,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:text="@string/app_name"
-                    android:textColor="@color/dim_foreground_light"
+                    android:textColor="@color/grey"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <Space
@@ -41,12 +40,12 @@
                     android:layout_weight="0.5" />
 
                 <TextView
-                    android:id="@+id/lblBy"
+                    android:id="@+id/lblCompany"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:text="@string/by"
-                    android:textColor="@color/dim_foreground_light" />
+                    android:textColor="@color/grey" />
 
                 <TextView
                     android:id="@+id/tvCompany"
@@ -55,7 +54,15 @@
                     android:layout_gravity="right"
                     android:text="@string/interoberlin"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/dim_foreground_light" />
+                    android:textColor="@color/grey" />
+
+                <TextView
+                    android:id="@+id/tvVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="@string/version"
+                    android:textColor="@color/grey" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -63,42 +70,22 @@
             </LinearLayout>
         </LinearLayout>
 
+
         <Space
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="0.5" />
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/lblVersion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/version"
-                    android:layout_weight="0.5" />
-
-                <TextView
-                    android:id="@+id/tvVersion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/version"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="0.5">
 
                 <TextView
                     android:id="@+id/lblLicense"
@@ -106,21 +93,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/license"
-                    android:layout_weight="0.5" />
-
-                <TextView
-                    android:id="@+id/tvLicense"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/license"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    android:layout_weight="0.5"
+                    android:textColor="@color/grey" />
 
                 <TextView
                     android:id="@+id/lblWebsite"
@@ -128,43 +102,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/website"
-                    android:layout_weight="0.5" />
-
-                <TextView
-                    android:id="@+id/tvWebsite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/website"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/lblSourcecode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/sourcecode"
-                    android:layout_weight="0.5" />
-
-                <TextView
-                    android:id="@+id/tvSourcecode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="@string/sourcecode"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    android:layout_weight="0.5"
+                    android:textColor="@color/grey" />
 
                 <TextView
                     android:id="@+id/lblIssuetracker"
@@ -172,7 +111,34 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/issuetracker"
-                    android:layout_weight="0.5" />
+                    android:layout_weight="0.5"
+                    android:textColor="@color/grey" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+                <TextView
+                    android:id="@+id/tvLicense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/license"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey" />
+
+                <TextView
+                    android:id="@+id/tvWebsite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/website"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey" />
 
                 <TextView
                     android:id="@+id/tvIssuetracker"
@@ -180,7 +146,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:text="@string/issuetracker"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:textColor="@color/grey" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -189,21 +156,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true">
-
-        <Button
-            android:id="@+id/btnSendMail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sendMail" />
+        android:layout_alignParentLeft="true"
+        android:weightSum="1">
 
         <ImageButton
-            android:id="@+id/btnGithub"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="5dp"
+            android:id="@+id/ibGithub"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="20dp"
             android:text="@string/sendMail"
-            android:background="@drawable/invertocat"/>
+            android:background="@drawable/ic_invertocat" />
+
+        <ImageButton
+            android:id="@+id/ibMail"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="20dp"
+            android:text="@string/sendMail"
+            android:background="@drawable/ic_action_email"
+            android:layout_weight="0.02" />
 
     </LinearLayout>
 
