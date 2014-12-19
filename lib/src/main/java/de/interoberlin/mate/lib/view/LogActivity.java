@@ -130,7 +130,7 @@ public class LogActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(MateController.getResourseIdByName(getPackageName(), "layout", "activity_log"));
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        // getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Set package name
         PACKAGE_NAME = getApplicationContext().getPackageName();
