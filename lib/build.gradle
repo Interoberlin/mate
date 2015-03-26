@@ -1,4 +1,4 @@
-apply plugin: 'android'
+apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
 import java.util.regex.Pattern
