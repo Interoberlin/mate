@@ -9,7 +9,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.1.0'
     }
 }
 
@@ -22,8 +22,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.2"
 
     defaultConfig {
         minSdkVersion 15
@@ -45,11 +45,12 @@ artifacts {
 // Javadoc
 // --------------------
 
-android.libraryVariants.all { variant ->
+ext.javadocDir = project.hasProperty('javadoc') ? project.getProperty('javadoc') : project.path + 'javadoc'
 
+android.applicationVariants.all { variant ->
     // Tidy javadoc dir
     task "tidyJavadoc${variant.name}"(type: Delete) {
-        delete new File(javadoc + '/' + groupId + '/' + artifactId);
+        delete new File(javadocDir + '/' + groupId + '/' + artifactId);
     }
 
     task "publishJavadoc${variant.name}"(type: Javadoc, dependsOn: "tidyJavadoc${variant.name}") {
@@ -58,7 +59,7 @@ android.libraryVariants.all { variant ->
         description = ''
         source = variant.javaCompile.source
         classpath = files(variant.javaCompile.classpath.files, project.android.getBootClasspath())
-        destinationDir = new File(javadoc + '/' + groupId + '/' + artifactId)
+        destinationDir = new File(javadocDir + '/' + groupId + '/' + artifactId)
         options {
             links "http://docs.oracle.com/javase/7/docs/api/"
             linksOffline "http://d.android.com/reference", "${android.sdkDirectory}/docs/reference"
