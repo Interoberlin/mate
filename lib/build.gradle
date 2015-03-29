@@ -47,7 +47,7 @@ artifacts {
 
 ext.javadocDir = project.hasProperty('javadoc') ? project.getProperty('javadoc') : project.path + 'javadoc'
 
-android.applicationVariants.all { variant ->
+android.libraryVariants.all { variant ->
     // Tidy javadoc dir
     task "tidyJavadoc${variant.name}"(type: Delete) {
         delete new File(javadocDir + '/' + groupId + '/' + artifactId);
