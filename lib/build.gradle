@@ -21,6 +21,8 @@ repositories {
     }
 }
 
+ext.versionPatch = project.hasProperty('patch') ? project.getProperty('patch') : versionPatch
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.0.2"
@@ -28,11 +30,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 19
-        versionCode System.getenv("BUILD_NUMBER") as Integer ?: 9999
-        if (System.getenv("BUILD_NUMBER") != null)
-            versionName versionMajor + "." + versionMinor + "." + System.getenv("BUILD_NUMBER")
-        else
-            versionName versionMajor + "." + versionMinor + "." + versionPatch
+        versionCode versionPatch as Integer ?: 0
+        versionName versionMajor + "." + versionMinor + "." + versionPatch
     }
 }
 
@@ -54,9 +53,8 @@ android.libraryVariants.all { variant ->
     }
 
     task "publishJavadoc${variant.name}"(type: Javadoc, dependsOn: "tidyJavadoc${variant.name}") {
-
         title = artifactId.capitalize()
-        description = ''
+        description = summary
         source = variant.javaCompile.source
         classpath = files(variant.javaCompile.classpath.files, project.android.getBootClasspath())
         destinationDir = new File(javadocDir + '/' + groupId + '/' + artifactId)
@@ -79,10 +77,7 @@ uploadArchives {
             repository url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
             pom.groupId = groupId
             pom.artifactId = artifactId
-            if (System.getenv("BUILD_NUMBER") != null)
-                pom.version = versionMajor + '.' + versionMinor + '.' + System.getenv("BUILD_NUMBER")
-            else
-                pom.version = versionMajor + '.' + versionMinor + '.' + versionPatch
+            pom.version = versionMajor + '.' + versionMinor + '.' + versionPatch
         }
     }
 }
