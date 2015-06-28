@@ -28,8 +28,12 @@ import de.interoberlin.mate.lib.model.LogEntry;
 
 public class LogActivity extends Activity {
     public static String PACKAGE_NAME;
+
+    // Context and activity
     private static Context context;
     private static Activity activity;
+
+    // View
     private static TableLayout tblLog;
     private static ScrollView scrl;
     private static CheckBox cbAutoRefresh;
@@ -38,93 +42,9 @@ public class LogActivity extends Activity {
     private static boolean RUNNING;
     private static ELog threshold = ELog.TRACE;
 
-    public static void uiDraw() {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                draw();
-            }
-        });
-    }
-
-    public static void draw() {
-        activity.setTitle("Log");
-
-        tblLog.removeAllViews();
-
-        synchronized (Log.getAll()) {
-            for (LogEntry l :
-                    Log.getAll()) {
-                if (l.getLogLevel().ordinal() >= threshold.ordinal()) {
-                    TableRow tr = new TableRow(activity);
-                    TextView tvTimestamp = new TextView(activity);
-                    TextView tvLogLevel = new TextView(activity);
-                    TextView tvMessage = new TextView(activity);
-
-                    tvTimestamp.setText(l.getTimeStamp());
-                    tvLogLevel.setText(l.getLogLevel().toString());
-                    tvMessage.setText(l.getMessage());
-
-                    switch (l.getLogLevel()) {
-                        case TRACE: {
-                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "green")));
-                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "green")));
-                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "green")));
-                            break;
-                        }
-                        case DEBUG: {
-                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "blue")));
-                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "blue")));
-                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "blue")));
-                            break;
-                        }
-                        case INFO: {
-                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "black")));
-                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "black")));
-                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "black")));
-                            break;
-                        }
-                        case WARN: {
-                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "orange")));
-                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "orange")));
-                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "orange")));
-                            break;
-                        }
-                        case ERROR: {
-                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
-                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
-                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
-                            break;
-                        }
-                        case FATAL: {
-                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
-                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
-                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "red")));
-                            break;
-                        }
-                    }
-
-                    tvTimestamp.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.3f));
-                    tvLogLevel.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.2f));
-                    tvMessage.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.5f));
-
-                    tr.addView(tvTimestamp, 0);
-                    tr.addView(tvLogLevel, 1);
-                    tr.addView(tvMessage, 2);
-
-                    tblLog.addView(tr);
-                }
-            }
-        }
-
-
-        scrl.post(new Runnable() {
-            @Override
-            public void run() {
-                scrl.fullScroll(ScrollView.FOCUS_DOWN);
-            }
-        });
-    }
+    // --------------------
+    // Methods - Lifecycle
+    // --------------------
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -150,11 +70,7 @@ public class LogActivity extends Activity {
         super.onResume();
         draw();
 
-        // Create an ArrayAdapter using the string array and a default spinner
-        // layout
-        // ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, MateController.getResourseIdByName(getPackageName(), "string", "loglevel"), MateController.getResourseIdByName(getPackageName(), "layout", "simple_spinner_item"));
-
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("TRACE");
         list.add("DEBUG");
         list.add("INFO");
@@ -162,7 +78,7 @@ public class LogActivity extends Activity {
         list.add("ERROR");
         list.add("FATAL");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
 
         // Specify the layout to use when the list of choices appears
@@ -239,4 +155,97 @@ public class LogActivity extends Activity {
             }
         }
     }
+
+    // --------------------
+    // Methods
+    // --------------------
+
+    public static void uiDraw() {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                draw();
+            }
+        });
+    }
+
+    public static void draw() {
+        activity.setTitle("Log");
+
+        tblLog.removeAllViews();
+
+        synchronized (Log.getAll()) {
+            for (LogEntry l :
+                    Log.getAll()) {
+                if (l.getLogLevel().ordinal() >= threshold.ordinal()) {
+                    TableRow tr = new TableRow(activity);
+                    TextView tvTimestamp = new TextView(activity);
+                    TextView tvLogLevel = new TextView(activity);
+                    TextView tvMessage = new TextView(activity);
+
+                    tvTimestamp.setText(l.getTimeStamp());
+                    tvLogLevel.setText(l.getLogLevel().toString());
+                    tvMessage.setText(l.getMessage());
+
+                    switch (l.getLogLevel()) {
+                        case TRACE: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_green_500")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_green_500")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_green_500")));
+                            break;
+                        }
+                        case DEBUG: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_blue_500")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_blue_500")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_blue_500")));
+                            break;
+                        }
+                        case INFO: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_black_1000")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_black_1000")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_black_1000")));
+                            break;
+                        }
+                        case WARN: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_deep_orange_500")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_deep_orange_500")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_deep_orange_500")));
+                            break;
+                        }
+                        case ERROR: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_500")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_500")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_500")));
+                            break;
+                        }
+                        case FATAL: {
+                            tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_900")));
+                            tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_900")));
+                            tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_900")));
+                            break;
+                        }
+                    }
+
+                    tvTimestamp.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.3f));
+                    tvLogLevel.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.2f));
+                    tvMessage.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.5f));
+
+                    tr.addView(tvTimestamp, 0);
+                    tr.addView(tvLogLevel, 1);
+                    tr.addView(tvMessage, 2);
+
+                    tblLog.addView(tr);
+                }
+            }
+        }
+
+
+        scrl.post(new Runnable() {
+            @Override
+            public void run() {
+                scrl.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        });
+    }
+
 }

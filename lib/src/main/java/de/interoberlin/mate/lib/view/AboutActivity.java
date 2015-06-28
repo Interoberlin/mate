@@ -15,11 +15,10 @@ import android.widget.TextView;
 import de.interoberlin.mate.lib.controller.MateController;
 
 public class AboutActivity extends Activity {
-    // private static Context context;
+    // Activity
     private static Activity activity;
-    private static String flavor = "";
 
-    // GUI elements
+    // View
     private static TextView tvName;
     private static TextView tvCompany;
     private static TextView tvVersion;
@@ -33,6 +32,11 @@ public class AboutActivity extends Activity {
     private static ImageView ibMail;
     private static ImageView ibGithub;
 
+    private static String flavor = "";
+
+    // --------------------
+    // Methods - Lifecycle
+    // --------------------
 
     /**
      * To select one flavor use
@@ -159,7 +163,6 @@ public class AboutActivity extends Activity {
 
     @Override
     public void onPause() {
-        // Call super
         super.onPause();
     }
 
@@ -172,6 +175,10 @@ public class AboutActivity extends Activity {
         }
         return true;
     }
+
+    // --------------------
+    // Methods
+    // --------------------
 
     private void draw() {
         activity.setTitle(MateController.getProperty(getApplicationContext(), "artifactId"));
