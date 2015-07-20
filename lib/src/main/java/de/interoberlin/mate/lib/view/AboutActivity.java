@@ -133,11 +133,15 @@ public class AboutActivity extends Activity {
             ivTell.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                    emailIntent.setType("message/rfc822");
-                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Get the " + MateController.getProperty(getApplicationContext(), "artifactId")  + " app");
-                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Browse " + MateController.getProperty(getApplicationContext(), "projectUrl") + " to get more");
-                    startActivity(Intent.createChooser(emailIntent, "Send mail"));
+                    String projectUrl = MateController.getProperty(getApplicationContext(), "projectUrl");
+
+                    if (projectUrl != null) {
+                        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                        emailIntent.setType("message/rfc822");
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Get the " + MateController.getProperty(getApplicationContext(), "artifactId") + " app");
+                        emailIntent.putExtra(Intent.EXTRA_TEXT, "To learn more go to " + projectUrl);
+                        startActivity(Intent.createChooser(emailIntent, "Send mail"));
+                    }
                 }
             });
         } else {

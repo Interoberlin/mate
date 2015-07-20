@@ -53,6 +53,6 @@ public class MateController {
         }
 
 
-        return "property not found";
+        return null;
     }
 }
