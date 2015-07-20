@@ -29,8 +29,9 @@ public class AboutActivity extends Activity {
     private static TextView tvSourcecode;
     private static Button btnSendMail;
 
-    private static ImageView ibMail;
-    private static ImageView ibGithub;
+    private static ImageView ivMail;
+    private static ImageView ivGithub;
+    private static ImageView ivTell;
 
     private static String flavor = "";
 
@@ -82,8 +83,9 @@ public class AboutActivity extends Activity {
         tvIssuetracker = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvIssuetracker"));
 
         if (flavor.equals("interoberlin")) {
-            ibGithub = (ImageButton) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "ibGithub"));
-            ibMail = (ImageButton) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "ibMail"));
+            ivGithub = (ImageButton) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "ivGithub"));
+            ivMail = (ImageButton) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "ivMail"));
+            ivTell = (ImageButton) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "ivTell"));
         } else {
             tvSourcecode = (TextView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tvSourcecode"));
             btnSendMail = (Button) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "btnSendMail"));
@@ -108,7 +110,7 @@ public class AboutActivity extends Activity {
 
         // Add action listeners
         if (flavor.equals("interoberlin")) {
-            ibGithub.setOnClickListener(new OnClickListener() {
+            ivGithub.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(Intent.ACTION_VIEW);
@@ -116,7 +118,7 @@ public class AboutActivity extends Activity {
                     startActivity(i);
                 }
             });
-            ibMail.setOnClickListener(new OnClickListener() {
+            ivMail.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -125,6 +127,16 @@ public class AboutActivity extends Activity {
                             {"support@interoberlin.de"});
                     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback " + MateController.getProperty(getApplicationContext(), "artifactId") + " " + versionCode);
                     emailIntent.putExtra(Intent.EXTRA_TEXT, "Write your comment here");
+                    startActivity(Intent.createChooser(emailIntent, "Send mail"));
+                }
+            });
+            ivTell.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                    emailIntent.setType("message/rfc822");
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Get the " + MateController.getProperty(getApplicationContext(), "artifactId")  + " app");
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "Browse " + MateController.getProperty(getApplicationContext(), "projectUrl") + " to get more");
                     startActivity(Intent.createChooser(emailIntent, "Send mail"));
                 }
             });
