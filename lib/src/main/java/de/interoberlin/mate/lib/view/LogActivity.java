@@ -224,7 +224,7 @@ public class LogActivity extends BaseActivity {
 
                     tvTimestamp.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.3f));
                     tvLogLevel.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.1f));
-                    tvMessage.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.10f));
+                    tvMessage.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 1.00f));
 
                     tr.addView(tvTimestamp, 0);
                     tr.addView(tvLogLevel, 1);
