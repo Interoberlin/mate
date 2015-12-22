@@ -3,14 +3,6 @@
     <string name="app_name">mate</string>
     <string name="artifactId">Artifact ID</string>
     <string name="cbAutoRefresh">Auto Refresh</string>
-    <string-array name="loglevel">
-        <item >TRACE</item>
-        <item >DEBUG</item>
-        <item >INFO</item>
-        <item >WARN</item>
-        <item >ERROR</item>
-        <item >FATAL</item>
-    </string-array>
     <string name="by">By</string>
     <string name="interoberlin">#tt Interoberlin</string>
     <string name="issuetracker">Issue Tracker</string>

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Log {
-    private static List<LogEntry> log = new ArrayList<LogEntry>();
+    private static List<LogEntry> log = new ArrayList<>();
     private static int buffer = 100;
 
     // --------------------

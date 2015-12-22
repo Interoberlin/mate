@@ -180,8 +180,8 @@ public class LogActivity extends BaseActivity {
                     TextView tvMessage = new TextView(activity);
 
                     tvTimestamp.setText(l.getTimeStamp());
-                    tvLogLevel.setText(l.getLogLevel().toString());
-                    tvMessage.setText(l.getTag().substring(0, 5) + " " + l.getMessage());
+                    tvLogLevel.setText(l.getLogLevel().toString().substring(0, 1));
+                    tvMessage.setText(l.getMessage());
 
                     switch (l.getLogLevel()) {
                         case VERBOSE: {
@@ -223,8 +223,8 @@ public class LogActivity extends BaseActivity {
                     }
 
                     tvTimestamp.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.3f));
-                    tvLogLevel.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.2f));
-                    tvMessage.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.5f));
+                    tvLogLevel.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.1f));
+                    tvMessage.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, 0.10f));
 
                     tr.addView(tvTimestamp, 0);
                     tr.addView(tvLogLevel, 1);
