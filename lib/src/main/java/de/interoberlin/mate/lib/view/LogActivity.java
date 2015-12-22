@@ -1,7 +1,6 @@
 package de.interoberlin.mate.lib.view;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,21 +25,18 @@ import de.interoberlin.mate.lib.model.Log;
 import de.interoberlin.mate.lib.model.LogEntry;
 
 
-public class LogActivity extends Activity {
+public class LogActivity extends BaseActivity {
     public static String PACKAGE_NAME;
 
-    // Context and activity
-    private static Context context;
     private static Activity activity;
 
-    // View
     private static TableLayout tblLog;
     private static ScrollView scrl;
     private static CheckBox cbAutoRefresh;
     private static Spinner spnnrLogLevel;
 
-    private static boolean RUNNING;
-    private static ELog threshold = ELog.TRACE;
+    private boolean running;
+    private static ELog threshold = ELog.VERBOSE;
 
     // --------------------
     // Methods - Lifecycle
@@ -49,34 +45,31 @@ public class LogActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(MateController.getResourseIdByName(getPackageName(), "layout", "activity_log"));
-        // getActionBar().setDisplayHomeAsUpEnabled(true);
+        setDisplayHomeAsUpEnabled(true);
 
-        // Set package name
         PACKAGE_NAME = getApplicationContext().getPackageName();
 
-        // Get activity and context
         activity = this;
-        context = getApplicationContext();
-
-        // Get views by id
-        tblLog = (TableLayout) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tbl"));
-        scrl = (ScrollView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "scrl"));
-        cbAutoRefresh = (CheckBox) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "cbAutoRefresh"));
-        spnnrLogLevel = (Spinner) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "spnnrLogLevel"));
     }
 
     public void onResume() {
         super.onResume();
+
+        // Load layout
+        tblLog = (TableLayout) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "tbl"));
+        scrl = (ScrollView) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "scrl"));
+        cbAutoRefresh = (CheckBox) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "cbAutoRefresh"));
+        spnnrLogLevel = (Spinner) findViewById(MateController.getResourseIdByName(getPackageName(), "id", "spnnrLogLevel"));
+
         draw();
 
         List<String> list = new ArrayList<>();
-        list.add("TRACE");
-        list.add("DEBUG");
-        list.add("INFO");
-        list.add("WARN");
-        list.add("ERROR");
-        list.add("FATAL");
+        list.add(ELog.VERBOSE.name());
+        list.add(ELog.DEBUG.name());
+        list.add(ELog.INFO.name());
+        list.add(ELog.WARN.name());
+        list.add(ELog.ERROR.name());
+        list.add(ELog.WTF.name());
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, list);
@@ -87,12 +80,12 @@ public class LogActivity extends Activity {
         // Apply the adapter to the spinner
         spnnrLogLevel.setAdapter(adapter);
 
-        RUNNING = true;
+        running = true;
 
         new Thread() {
             @Override
             public void run() {
-                while (RUNNING) {
+                while (running) {
                     if (cbAutoRefresh.isChecked()) {
                         try {
                             Thread.sleep(1000);
@@ -110,8 +103,8 @@ public class LogActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 String selected = parent.getItemAtPosition(pos).toString();
 
-                if (selected.equals(ELog.TRACE.toString())) {
-                    threshold = ELog.TRACE;
+                if (selected.equals(ELog.VERBOSE.toString())) {
+                    threshold = ELog.VERBOSE;
                 } else if (selected.equals(ELog.DEBUG.toString())) {
                     threshold = ELog.DEBUG;
                 } else if (selected.equals(ELog.INFO.toString())) {
@@ -120,8 +113,8 @@ public class LogActivity extends Activity {
                     threshold = ELog.WARN;
                 } else if (selected.equals(ELog.ERROR.toString())) {
                     threshold = ELog.ERROR;
-                } else if (selected.equals(ELog.FATAL.toString())) {
-                    threshold = ELog.FATAL;
+                } else if (selected.equals(ELog.WTF.toString())) {
+                    threshold = ELog.WTF;
                 }
 
                 uiDraw();
@@ -129,7 +122,7 @@ public class LogActivity extends Activity {
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                threshold = ELog.TRACE;
+                threshold = ELog.VERBOSE;
             }
         });
     }
@@ -138,7 +131,12 @@ public class LogActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-        RUNNING = false;
+        running = false;
+    }
+
+    @Override
+    protected int getLayoutResource() {
+        return MateController.getResourseIdByName(getPackageName(), "layout", "activity_log");
     }
 
     @Override
@@ -170,8 +168,6 @@ public class LogActivity extends Activity {
     }
 
     public static void draw() {
-        activity.setTitle("Log");
-
         tblLog.removeAllViews();
 
         synchronized (Log.getAll()) {
@@ -185,10 +181,10 @@ public class LogActivity extends Activity {
 
                     tvTimestamp.setText(l.getTimeStamp());
                     tvLogLevel.setText(l.getLogLevel().toString());
-                    tvMessage.setText(l.getMessage());
+                    tvMessage.setText(l.getTag().substring(0, 5) + " " + l.getMessage());
 
                     switch (l.getLogLevel()) {
-                        case TRACE: {
+                        case VERBOSE: {
                             tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_green_500")));
                             tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_green_500")));
                             tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_green_500")));
@@ -218,7 +214,7 @@ public class LogActivity extends Activity {
                             tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_500")));
                             break;
                         }
-                        case FATAL: {
+                        case WTF: {
                             tvTimestamp.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_900")));
                             tvLogLevel.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_900")));
                             tvMessage.setTextColor(activity.getResources().getColor(MateController.getResourseIdByName(PACKAGE_NAME, "color", "md_red_900")));
@@ -247,5 +243,4 @@ public class LogActivity extends Activity {
             }
         });
     }
-
 }

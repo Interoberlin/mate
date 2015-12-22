@@ -7,9 +7,13 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class MateController {
+    // --------------------
+    // Methods
+    // --------------------
 
     /**
      * Solution found at http://stackoverflow.com/questions/10308283/java-lang-noclassdeffounderror-with-all-r-classess-when-using-android-library
+     *
      * @param packageName
      * @param className
      * @param name
@@ -19,8 +23,8 @@ public class MateController {
         int id = 0;
         try {
             for (int i = 0; i < Class.forName(packageName + ".R").getClasses().length; i++) {
-                if(Class.forName(packageName + ".R").getClasses()[i].getName().split("\\$")[1].equals(className)) {
-                    if(Class.forName(packageName + ".R").getClasses()[i] != null)
+                if (Class.forName(packageName + ".R").getClasses()[i].getName().split("\\$")[1].equals(className)) {
+                    if (Class.forName(packageName + ".R").getClasses()[i] != null)
                         id = Class.forName(packageName + ".R").getClasses()[i].getField(name).getInt(Class.forName(packageName + ".R").getClasses()[i]);
                     break;
                 }
@@ -39,8 +43,7 @@ public class MateController {
         return id;
     }
 
-    public static String getProperty(Context context, String key)
-    {
+    public static String getProperty(Context context, String key) {
         Properties props = new Properties();
         InputStream is = null;
 

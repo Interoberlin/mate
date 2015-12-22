@@ -1,5 +1,5 @@
 package de.interoberlin.mate.lib.model;
 
 public enum ELog {
-    TRACE, DEBUG, INFO, WARN, ERROR, FATAL,
+    VERBOSE, DEBUG, INFO, WARN, ERROR, WTF,
 }
